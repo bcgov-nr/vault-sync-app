@@ -49,12 +49,12 @@ async function createConfigMap() {
     const files = await fs.readdir(directoryPath);
     const hclFiles = files.filter(file => file.endsWith('.hcl.tpl'));
 
-    let combinedContent = '';
+    let data = {};
 
     for (const hclFile of hclFiles) {
       const filePath = path.join(directoryPath, hclFile);
       const hclContent = await fs.readFile(filePath, 'utf8');
-      combinedContent += hclContent + '\n';
+      data[hclFile] = hclContent.trim();
     }
 
     const configMap = {
@@ -64,9 +64,7 @@ async function createConfigMap() {
         name: configMapName,
         namespace: namespace,
       },
-      data: {
-        [`${configMapName}.hcl`]: combinedContent.trim(),
-      },
+      data,
     };
 
     const outputFilePath = path.join(directoryPath, `${configMapName}-configmap.yaml`);
