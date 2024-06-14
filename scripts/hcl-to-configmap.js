@@ -68,7 +68,7 @@ async function createConfigMap() {
     };
 
     const outputFilePath = path.join(directoryPath, `${configMapName}-configmap.yaml`);
-    await fs.writeFile(outputFilePath, yaml.stringify(configMap));
+    await fs.writeFile(outputFilePath, yaml.stringify(configMap, { lineWidth: 0 }));
 
     console.log(`ConfigMap YAML file created successfully at ${outputFilePath}`);
   } catch (error) {
